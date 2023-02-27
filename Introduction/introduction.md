@@ -125,6 +125,106 @@ Se il programma viene eseguito ma non funziona correttamente, è il momento di e
 ## Ambienti di sviluppo integrati (IDE)
 
 ---------------
-Si noti che i passi 3, 4, 5 e 7 coinvolgono tutti il software (editor, compilatore, linker, debugger). Sebbene sia possibile utilizzare programmi separati per ciascuna di queste attività, un pacchetto software noto come ambiente di sviluppo integrato (IDE) raggruppa e integra tutte queste funzionalità. 
+**Creare Progetti nell'IDE**
+
+Per scrivere un programma C++ all'interno di un IDE, di solito si inizia creando un nuovo progetto. Un progetto è un contenitore che contiene tutti i file di codice sorgente, le immagini, i file di dati, ecc... necessari per produrre un eseguibile (o una libreria, un sito web, ecc...) da eseguire o utilizzare. Il progetto salva anche varie impostazioni dell'IDE, del compilatore e del linker, oltre a ricordare il punto in cui si è lasciato, in modo che quando si riapre il progetto in un secondo momento, lo stato dell'IDE può essere ripristinato al punto in cui si era lasciato. Quando si sceglie di compilare il programma, tutti i file .cpp del progetto vengono compilati e collegati.
+
+Ogni progetto corrisponde a un programma. Quando si è pronti a creare un secondo programma, è necessario creare un nuovo progetto o sovrascrivere il codice di un progetto esistente (se non lo si vuole conservare). I file di progetto sono generalmente specifici per l'IDE, quindi un progetto creato per un IDE dovrà essere ricreato in un IDE diverso.
+
+**Best practise**
+
+> Creare un nuovo progetto per ogni nuovo programma scritto.
+
+---
+### Progetti via console
+
+Quando si crea un nuovo progetto, generalmente viene chiesto quale tipo di progetto si vuole creare. Tutti i progetti che creeremo in questo tutorial saranno `progetti console`. Un progetto console significa che creeremo programmi che possono essere eseguiti dalla console di Windows, Linux o Mac.
+
+Ecco una schermata della console di Windows:
+
+![console Windows](./img/image4.webp)
 
 
+Per impostazione predefinita, le applicazioni per console non hanno un'interfaccia grafica (GUI), stampano testo sulla console, leggono input dalla tastiera e sono compilate in file eseguibili autonomi. Questo è perfetto per imparare il C++, perché mantiene la complessità al minimo e garantisce il funzionamento su un'ampia gamma di sistemi.
+
+Non preoccupatevi se non avete mai usato una console o se non sapete come accedervi. Compileremo e lanceremo i nostri programmi attraverso i nostri IDE (che richiameranno la console quando necessario).
+
+### Workspace / Solutions
+
+Quando si crea un nuovo progetto per il proprio programma, molti IDE aggiungono automaticamente il progetto a un "workspace" o a una "solution" (il termine varia a seconda dell'IDE). Uno spazio di lavoro o una soluzione è un contenitore che può contenere uno o più progetti correlati. Ad esempio, se si sta scrivendo un videogame e si vuole avere un eseguibile separato per il giocatore singolo e per il multigiocatore, è necessario creare due progetti. Non avrebbe senso che entrambi i progetti fossero completamente indipendenti: dopo tutto, fanno parte dello stesso gioco. Molto probabilmente, ognuno di essi sarà configurato come progetto separato all'interno di un singolo spazio di lavoro/soluzione.
+
+---
+Anche se è possibile aggiungere più progetti a una singola soluzione, in genere si consiglia di creare un nuovo spazio di lavoro o una nuova soluzione per ogni programma, soprattutto durante l'apprendimento. È più semplice e ci sono meno possibilità che qualcosa vada storto.
+
+
+---
+
+### Hello World
+Ora creiamo un nuovo file chiamato helloworld.cpp e incolliamo questo codice sorgente:
+```
+#include <iostream>
+
+int main()
+{
+	std::cout << "Hello, world!";
+	return 0;
+}
+```
+
+
+Ora compiliamo con il compiler installato (ad esempio MYI2 su VSCODE). Verra' creato un file .exe che potremmo eseguire anche in console.
+
+
+
+----
+
+
+## Differenze tra le opzioni compile, build, rebuild, clean e run/start nel mio IDE
+
+Prima abbiamo visto come per produrre un file eseguibile, ogni file di codice di un programma viene compilato in un file oggetto e poi i file oggetto vengono collegati in un eseguibile.
+
+Quando un file di codice viene compilato, l'IDE può memorizzare il file oggetto risultante. In questo modo, se il programma viene compilato di nuovo in futuro, qualsiasi file di codice che non è stato modificato non deve essere ricompilato: il file oggetto memorizzato nella cache dall'ultima volta può essere riutilizzato. Questo può accelerare notevolmente i tempi di compilazione (al costo di un po' di spazio su disco).
+
+Con questo in mente, ecco cosa fa di solito ciascuna delle opzioni:
+
+- **Build** compila tutti i file di codice *modificati* nel progetto o nell'area di lavoro/soluzione, quindi collega i file oggetto in un eseguibile. Se nessun file di codice è stato modificato dall'ultima compilazione, questa opzione non fa nulla.
+- **Clean** rimuove tutti gli oggetti e gli eseguibili memorizzati nella cache, in modo che alla successiva compilazione del progetto tutti i file vengano ricompilati e venga prodotto un nuovo eseguibile.
+- **Rebuild** esegue una "pulizia", seguita da una "compilazione".
+- **Compile** ricompila un singolo file di codice (indipendentemente dal fatto che sia stato memorizzato nella cache in precedenza). Questa opzione non richiama il linker né produce un eseguibile.
+- **Run/start** esegue l'eseguibile di una precedente compilazione. Alcuni IDE (ad esempio Visual Studio) invocano un "build" prima di eseguire un "run", per assicurarsi di eseguire l'ultima versione del codice. Altri (ad esempio Code::Blocks) eseguono semplicemente l'eseguibile precedente.
+
+Anche se parliamo informalmente di "compilazione" dei nostri programmi, per compilarli effettivamente scegliamo l'opzione "build" (o "run") nel nostro IDE.
+
+
+
+---
+## Configurazione del compilatore
+
+Una configurazione di compilazione (chiamata anche target di compilazione) è un insieme di impostazioni del progetto che determina il modo in cui l'IDE costruirà il progetto. La configurazione di compilazione include tipicamente elementi come il nome dell'eseguibile, le directory in cui l'IDE cercherà altri file di codice e di libreria, se mantenere o eliminare le informazioni di debug, quanto ottimizzare il programma da parte del compilatore, ecc. In genere, si consiglia di lasciare queste impostazioni ai valori predefiniti, a meno che non ci sia una ragione specifica per cambiare qualcosa.
+
+Quando si crea un nuovo progetto nell'IDE, la maggior parte degli IDE imposta due diverse configurazioni di compilazione: una configurazione di rilascio e una configurazione di debug.
+
+**La configurazione di debug** è progettata per aiutare l'utente a eseguire il debug del programma ed è generalmente quella che si usa quando si scrivono i programmi. Questa configurazione disattiva tutte le ottimizzazioni e include le informazioni di debug, rendendo i programmi più grandi e più lenti, ma molto più facili da debuggare. La configurazione di debug è di solito selezionata come configurazione attiva per impostazione predefinita. Parleremo meglio delle tecniche di debug in una lezione successiva.
+
+**La configurazione release** è pensata per essere usata quando si rilascia il programma al pubblico. Questa versione è tipicamente ottimizzata per le dimensioni e le prestazioni e non contiene le informazioni di debug aggiuntive. Poiché la configurazione di rilascio include tutte le ottimizzazioni, questa modalità è utile anche per testare le prestazioni del codice (cosa che verrà mostrata più avanti nella serie di esercitazioni).
+
+Se ad esempio prendessimo il programma *Hello World* costruito con Visual Studio, l'eseguibile prodotto nella configurazione di debug sarebbe di 65kb, mentre l'eseguibile costruito nella versione di rilascio di 12kb. La differenza è in gran parte dovuta alle informazioni di debug in più conservate nella build di debug.
+
+Anche se è possibile creare configurazioni di compilazione personalizzate, raramente se ne ha motivo, a meno che non si vogliano confrontare due compilazioni realizzate con impostazioni diverse del compilatore.
+
+> **La best practise**: Durante lo sviluppo dei programmi, utilizzare la configurazione di compilazione *debug*. Quando si è pronti a rilasciare l'eseguibile ad altri o si vogliono testare le prestazioni, utilizzare la configurazione di compilazione *release*.
+
+
+==============================================
+
+## Estensioni del compilatore
+
+Lo standard C++ definisce le regole su come i programmi devono comportarsi in determinate circostanze. Nella maggior parte dei casi, i compilatori seguono queste regole. Tuttavia, molti compilatori implementano le proprie modifiche al linguaggio, spesso per migliorare la compatibilità con altre versioni o per ragioni storiche. Questi comportamenti specifici del compilatore sono chiamati *estensioni del compilatore*.
+
+La scrittura di un programma che fa uso di un'estensione del compilatore consente di scrivere programmi incompatibili con lo standard C++. I programmi che utilizzano estensioni non standard generalmente non vengono compilati da altri compilatori (che non supportano le stesse estensioni) o, se lo fanno, potrebbero non essere eseguiti correttamente.
+
+È frustrante che le estensioni del compilatore siano spesso abilitate per impostazione predefinita. Questo è particolarmente dannoso per i nuovi programmatori, che possono pensare che un comportamento che funziona faccia parte dello standard ufficiale di C++, mentre in realtà il loro compilatore è semplicemente troppo permissivo.
+
+Poiché le estensioni del compilatore non sono mai necessarie e causano la non conformità dei programmi agli standard C++, si consiglia di disattivare le estensioni del compilatore.
+
+> Best practise: Disattivare le estensioni del compilatore per garantire che i programmi (e le pratiche di codifica) siano conformi agli standard C++ e funzionino su qualsiasi sistema.
