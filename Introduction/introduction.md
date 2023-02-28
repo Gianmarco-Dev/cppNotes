@@ -228,3 +228,307 @@ La scrittura di un programma che fa uso di un'estensione del compilatore consent
 Poiché le estensioni del compilatore non sono mai necessarie e causano la non conformità dei programmi agli standard C++, si consiglia di disattivare le estensioni del compilatore.
 
 > Best practise: Disattivare le estensioni del compilatore per garantire che i programmi (e le pratiche di codifica) siano conformi agli standard C++ e funzionino su qualsiasi sistema.
+
+----
+
+## Configurare il compilatore: scegliere uno standard di linguaggio
+=======================================================
+
+
+Con molte versioni diverse di C++ disponibili (C++98, C++03, C++11, C++14, C++17, C++20, ecc...) come fa il vostro compilatore a sapere quale usare? In genere, un compilatore sceglie uno standard di default (in genere *non* lo standard linguistico più recente).
+
+Se si desidera utilizzare uno standard diverso (e probabilmente lo si farà), si dovrà configurare l'IDE/compilatore per farlo.
+
+### Nomi di codice per gli standard linguistici in corso
+
+Gli standard linguistici finalizzati prendono il nome dagli anni in cui sono stati finalizzati (ad esempio, C++17 è stato finalizzato nel 2017).
+
+Tuttavia, quando si sta concordando un nuovo standard linguistico, non è chiaro in quale anno avverrà la finalizzazione. Di conseguenza, agli standard linguistici in corso d'opera vengono assegnati nomi di codice, che vengono poi sostituiti dai nomi effettivi al momento della finalizzazione dello standard. Ad esempio, *C++11* era chiamato *c++1x* mentre era in lavorazione. È possibile che i nomi di codice siano ancora utilizzati (soprattutto per le prossime versioni dello standard del linguaggio, che non avranno ancora un nome definitivo).
+
+Ecco una mappatura dei nomi di codice con i nomi finali:
+
+- c++1x = C++11
+- c++1y = C++14
+- c++1z = C++17
+- c++2a = C++20
+- c++2b = C++23
+
+Ad esempio, se si vede `c++1z`, questo è sinonimo dello standard linguistico C++17.
+
+### Quale standard linguistico scegliere?
+
+Negli ambienti professionali, è comune scegliere uno standard di linguaggio che sia una o due versioni indietro rispetto allo standard più recente (ad esempio, se C++20 è l'ultima versione, significa C++14 o C++17). In genere questo viene fatto per garantire che i produttori di compilatori abbiano avuto la possibilità di risolvere i difetti e che le migliori pratiche per le nuove funzionalità siano ben comprese. Se pertinente, questo aiuta anche a garantire una migliore compatibilità multipiattaforma, dato che i compilatori su alcune piattaforme potrebbero non fornire immediatamente il pieno supporto ai nuovi standard linguistici.
+
+Per i progetti personali e per l'apprendimento non ci sono molti svantaggi nello scegliere l'ultimo standard finalizzato (al momento in cui scriviamo, attualmente il C++20).
+
+
+
+------------------
+
+## CAPITOLO 1
+
+------------------
+
+## Le dichiarazioni
+
+Un programma per computer è una sequenza di istruzioni che indicano al computer cosa fare. Un'istruzione è un tipo di istruzione che induce il programma a *eseguire un'azione*.
+
+Gli `statement` sono di gran lunga il tipo di istruzione più comune in un programma C++. Questo perché sono la più piccola unità di calcolo indipendente del linguaggio C++. In questo senso, si comportano come le frasi nel linguaggio naturale. Quando vogliamo trasmettere un'idea a un'altra persona, di solito scriviamo o parliamo per frasi (non per parole o sillabe a caso). In C++, quando vogliamo che il nostro programma faccia qualcosa, di solito scriviamo dichiarazioni.
+
+La maggior parte delle istruzioni (ma non tutte) in C++ terminano con un punto e virgola. Se si vede una riga che termina con un punto e virgola, probabilmente si tratta di un'istruzione.
+
+In un linguaggio di alto livello come il C++, una singola istruzione può essere compilata in molte istruzioni del linguaggio macchina.
+
+In C++ esistono diversi tipi di istruzioni:
+
+1.  Dichiarazioni
+2.  Dichiarazioni di salto
+3.  Dichiarazioni di espressione
+4.  Dichiarazioni composte
+5.  Dichiarazioni di selezione (condizionali)
+6.  Dichiarazioni di iterazione (loop)
+7.  Blocchi di prova
+
+
+## Funzioni e funzione principale
+
+In C++, le istruzioni sono tipicamente raggruppate in unità chiamate `funzioni`. Una funzione è un **insieme di istruzioni** che vengono eseguite in sequenza (in ordine, dall'alto verso il basso). 
+
+### Regola
+
+Ogni programma C++ deve avere una funzione speciale chiamata `main` (tutte lettere minuscole). Quando il programma viene eseguito, le istruzioni contenute in *main* vengono eseguite in ordine sequenziale.
+
+In genere, i programmi terminano (finiscono di funzionare) dopo che è stata eseguita l'ultima istruzione all'interno della funzione *main* (anche se in alcune circostanze i programmi possono interrompersi prima, o fare un po' di pulizia in seguito).
+
+Le funzioni sono tipicamente scritte per svolgere un lavoro specifico. Ad esempio, una funzione denominata "max" potrebbe contenere istruzioni per determinare quale dei due numeri è più grande. Una funzione chiamata `calculateGrade` potrebbe calcolare il voto di uno studente a partire da un insieme di punteggi di un test. 
+
+
+Quando si parla di funzioni, è abbastanza comune aggiungere una coppia di parentesi alla fine del nome della funzione. Ad esempio, se si vede il termine *main()* o *doSomething()*, si tratta di funzioni denominate rispettivamente *main* o *doSomething*. Questo aiuta a differenziare le funzioni da altre cose con un nome (come le variabili) senza dover scrivere ogni volta la parola "funzione".
+
+
+Ora che abbiamo una breve comprensione di cosa sono le dichiarazioni e le funzioni, torniamo al nostro programma "Hello world" e diamo uno sguardo di alto livello a ciò che ogni riga fa in modo più dettagliato.
+
+```
+#include <iostream>
+
+int main()
+{
+   std::cout << "Hello world!";
+   return 0;
+}
+```
+
+La riga 1 è un tipo speciale di riga chiamata `direttiva del preprocessore`. Questa direttiva del preprocessore indica che vogliamo usare il contenuto della libreria `iostream`, che è la parte della libreria standard del C++ che ci permette di leggere e scrivere testo da/verso la console. Questa riga è necessaria per poter utilizzare `std::cout` alla riga 5. Escludendo questa riga si otterrebbe un errore di compilazione alla riga 5, poiché altrimenti il compilatore non saprebbe cosa sia `std::cout`.
+
+La riga 2 è vuota e viene ignorata dal compilatore. Questa riga esiste solo per rendere il programma più leggibile all'uomo (separando la direttiva del preprocessore #include dalle parti successive del programma).
+
+La riga 3 indica al compilatore che stiamo per scrivere (definire) una funzione chiamata *main*. Come abbiamo detto in precedenza, ogni programma C++ deve avere una funzione *main*, altrimenti non riuscirà a collegarsi.
+
+Le righe 4 e 7 indicano al compilatore quali righe fanno parte della funzione *main*. Tutto ciò che è compreso tra la parentesi graffa di apertura della riga 4 e la parentesi graffa di chiusura della riga 7 è considerato parte della funzione *main*. Questo viene chiamato corpo della funzione.
+
+La riga 5 è la prima istruzione all'interno della funzione *main* ed è la prima istruzione che verrà eseguita quando verrà eseguito il programma. L'operatore *std::cout* (che sta per "output di caratteri") e l'operatore `<<` ci permettono di inviare lettere o numeri alla console per l'output. In questo caso, stiamo inviando il testo "Hello world!", che sarà inviato alla console. Questa istruzione crea l'output visibile del programma.
+
+La riga 6 è un'istruzione di ritorno. Quando un programma eseguibile termina l'esecuzione, il programma invia un valore al sistema operativo per indicare se l'esecuzione è andata a buon fine o meno. Questa particolare istruzione `return` restituisce al sistema operativo il valore `0`, che significa che tutto è andato bene. Questa è l'ultima istruzione del programma che viene eseguita.
+
+Tutti i programmi che scriviamo seguiranno questo modello generale, o una sua variante.
+
+## Sintassi ed errori di sintassi
+
+Le regole che governano la costruzione delle frasi in una lingua si chiamano sintassi.
+
+Anche il C++ ha una sintassi: regole su come i programmi devono essere costruiti per essere considerati validi. Quando si compila il programma, il compilatore ha il compito di verificare che il programma segua la sintassi di base del linguaggio C++. Se si viola una regola, il compilatore ci avvisa quando si cerca di compilare il programma e segnala un errore di sintassi.
+
+Vediamo cosa succede se omettiamo il punto e virgola alla riga 5 del programma "Hello world", in questo modo:
+
+```
+#include <iostream>
+
+int main()
+{
+   std::cout << "Hello world!"
+   return 0;
+}
+```
+
+Visual Studio produce il seguente errore (il vostro compilatore potrebbe generare un messaggio di errore con una formulazione diversa):
+
+c:\vcprojects\test1.cpp(6): errore C2143: errore di sintassi : manca ';' prima di 'return'
+
+Questo indica un errore di sintassi alla riga 6: il compilatore si aspettava un punto e virgola prima dell'istruzione `return`, ma non l'ha trovato. Sebbene il compilatore indichi la riga di codice che stava compilando quando ha riscontrato l'errore di sintassi, l'omissione potrebbe trovarsi in una riga precedente. In questo caso, l'errore si trova alla fine della riga 5 (il compilatore ha scoperto il problema solo alla riga 6).
+
+Gli errori di sintassi sono comuni quando si scrive un programma. Fortunatamente, sono in genere facili da trovare e da correggere, poiché il compilatore in genere li indica subito. La compilazione di un programma sarà completata solo quando tutti gli errori di sintassi saranno stati risolti.
+
+
+========
+## Commenti
+========
+
+Un commento è una nota leggibile dal programmatore che viene inserita direttamente nel codice sorgente del programma. I commenti vengono ignorati dal compilatore e sono ad uso esclusivo del programmatore.
+
+In C++ esistono due diversi stili di commenti, che hanno entrambi lo stesso scopo: aiutare i programmatori a documentare il codice in qualche modo.
+
+### Commenti a riga singola
+
+Il simbolo `//` inizia un commento a riga singola in C++, che indica al compilatore di ignorare tutto ciò che va dal simbolo `//` alla fine della riga. Ad esempio:
+
+```
+std::cout << "Hello world!"; // Tutto ciò che va da qui alla fine della riga viene ignorato
+```
+
+
+In genere, il commento a riga singola viene utilizzato per fare un rapido commento su una singola riga di codice.
+
+```
+std::cout << "Hello world!\n"; // std::cout vive nella libreria iostream
+std::cout << "È un piacere conoscerti!\n"; // questi commenti rendono il codice difficile da leggere
+std::cout << "Yeah!\n"; // specialmente quando le righe sono di lunghezza diversa
+```
+
+
+La presenza di commenti a destra di una riga può rendere difficile la lettura sia del codice che del commento, soprattutto se la riga è lunga. Se le righe sono abbastanza corte, i commenti possono essere semplicemente allineati (di solito a un punto di tabulazione).
+
+Tuttavia, se le righe sono lunghe, inserire i commenti a destra può rendere le righe molto lunghe. In questo caso, i commenti a riga singola sono spesso posizionati sopra la riga che si sta commentando:
+
+```
+// std::cout vive nella libreria iostream
+std::cout << "Hello world!\n";
+
+// questo è molto più facile da leggere
+std::cout << "È un piacere conoscerti!\n";
+
+// non lo pensate anche voi?
+std::cout << "Sì!\n";
+```
+
+
+Le affermazioni qui sopra rappresentano uno dei primi incontri con gli snippet di codice. Poiché gli snippet non sono programmi completi, non possono essere compilati da soli. Esistono piuttosto per dimostrare concetti specifici in modo conciso.
+
+Se si desidera compilare uno snippet, è necessario trasformarlo in un programma completo per poterlo compilare. In genere, il programma avrà un aspetto simile a questo:
+
+```
+#include <iostream>
+
+int main()
+{
+    // frammento di codice che si desidera compilare
+
+    return 0;
+}
+```
+
+
+### Commenti multilinea
+
+La coppia di simboli `/*` e `*/` denota un commento su più righe in stile C. Tutto ciò che è compreso tra i due simboli viene ignorato.
+
+```
+/* Questo è un commento multilinea.
+   Questa riga verrà ignorata.
+   Anche questa. */
+```
+
+Poiché tutto ciò che è compreso tra i simboli viene ignorato, a volte si vedono programmatori che "abbelliscono" i loro commenti su più righe:
+
+```
+/* Questo è un commento multilinea.
+ * gli asterischi corrispondenti a sinistra
+ * possono rendere più facile la lettura
+ */
+```
+
+> Tips: In genere, i commenti dovrebbero essere usati per tre cose. In primo luogo, per una data libreria, programma o funzione, i commenti sono meglio utilizzati per descrivere **cosa** fa la libreria, il programma o la funzione. In genere sono collocati all'inizio del file o della libreria, o immediatamente prima della funzione.
+
+Esempio: 
+
+```
+// Questo programma calcola il voto finale dello studente in base ai punteggi dei test e dei compiti.
+```
+
+```
+// Questa funzione utilizza il metodo di Newton per approssimare la radice di un'equazione data.
+```
+
+```
+// Le righe seguenti generano un oggetto casuale in base alla rarità, al livello e a un fattore di peso.
+```
+
+Tutti questi commenti danno al lettore una buona idea di ciò che la libreria, il programma o la funzione stanno cercando di realizzare senza dover guardare il codice vero e proprio. L'utente (forse qualcun altro, o voi stessi se state cercando di riutilizzare del codice che avete scritto in precedenza) può capire a colpo d'occhio se il codice è rilevante per ciò che sta cercando di realizzare. Questo è particolarmente importante quando si lavora in gruppo, dove non tutti conoscono tutto il codice.
+
+**In secondo luogo**, *all'interno* di una libreria, di un programma o di una funzione descritta sopra, i commenti possono essere usati per descrivere **come** il codice raggiungerà il suo obiettivo.
+
+```
+/* Per calcolare il voto finale, si sommano tutti i punteggi ponderati degli esami intermedi e dei compiti a casa
+    e poi si divide per il numero di punteggi per assegnare una percentuale, che viene usata per calcolare il voto in lettere.
+    che viene utilizzata per calcolare un voto in lettere. */
+```
+
+```
+// Per generare un oggetto casuale, faremo come segue:
+// 1) Mettere in una lista tutti gli oggetti della rarità desiderata.
+// 2) Calcolare una probabilità per ogni elemento in base al livello e al fattore di peso
+// 3) Scegliere un numero casuale
+// 4) Capire a quale elemento corrisponde quel numero casuale
+// 5) Restituire l'elemento appropriato
+```
+
+Questi commenti danno all'utente un'idea di come il codice raggiungerà il suo scopo senza dover capire cosa fa ogni singola riga di codice.
+
+**In terzo luogo**, a livello di istruzioni, i commenti dovrebbero essere usati per descrivere **perché** il codice sta facendo qualcosa. Un commento sbagliato spiega **cosa** sta facendo il codice. Se scrivete un codice così complesso da richiedere un commento per spiegare **cosa** sta facendo un'istruzione, probabilmente dovete riscrivere l'istruzione, non commentarla.
+
+Ecco alcuni esempi di commenti di riga errati e di commenti di istruzione validi.
+
+Commento sbagliato:
+
+```
+// Imposta il campo visivo a 0
+sight = 0;
+```
+
+Motivo: Possiamo già vedere che la vista viene impostata a 0 guardando l'istruzione
+
+Commento corretto:
+
+```
+// Il giocatore è appena stato accecato e non può vedere niente
+sight = 0;
+```
+
+Motivo: Ora sappiamo perché la vista del giocatore viene impostata a 0.
+
+Commento negativo:
+
+```
+// Calcolo del costo degli oggetti
+costo = quantità * 2 * storePrice;
+```
+
+Motivo: Possiamo vedere che si tratta di un calcolo del costo, ma perché la quantità è moltiplicata per 2?
+
+
+Ottimo commento:
+
+```
+// Dobbiamo moltiplicare la quantità per 2, perché vengono acquistati a coppie
+costo = quantità * 2 * storePrice;
+```
+
+
+Motivo: Ora sappiamo perché questa formula ha senso.
+
+Spesso i programmatori si trovano a dover prendere una decisione difficile tra risolvere un problema in un modo o in un altro. I commenti sono un ottimo modo per ricordare a se stessi (o dire a qualcun altro) il motivo per cui si è presa una decisione invece di un'altra.
+
+Altri ottimi esempi di commenti:
+
+```
+// Abbiamo deciso di usare un elenco collegato invece di un array perché
+// gli array si inseriscono troppo lentamente.
+```
+
+```
+// Utilizzeremo il metodo di Newton per trovare la radice di un numero perché
+// non esiste un modo deterministico per risolvere queste equazioni.
+```
+
+
+Infine, i commenti devono essere scritti in modo che abbiano senso anche per chi non ha idea di cosa faccia il codice. Capita spesso che un programmatore dica: "È ovvio cosa faccia questo codice, impossibile che me ne dimentichi". Indovinate un po'? Non è *ovvio* e sarete *sorpresi* dalla rapidità con cui lo dimenticherete :) 
+Voi (o qualcun altro) vi ringrazierete in seguito per aver scritto il cosa, il come e il perché del vostro codice in un linguaggio umano. Leggere le singole righe di codice è facile. Capire quale sia l'obiettivo che devono raggiungere non lo è.
